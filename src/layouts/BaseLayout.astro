@@ -1,0 +1,82 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const { title, description = "Don't Let Life Push You Around. Stop. Think. Pivot.", ogImage } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="description" content={description} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/rss+xml" title="Stop Think Pivot" href="/rss.xml" />
+
+    <title>{title}</title>
+
+    <!-- Favicon placeholder -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="container--wide">
+        <div class="header-inner">
+          <a href="/" class="site-logo">
+            Stop Think Pivot
+            <span>Don't let life push you around</span>
+          </a>
+          <nav aria-label="Main navigation">
+            <ul class="site-nav">
+              <li><a href="/">Home</a></li>
+              <li><a href="/blog">Writing</a></li>
+              <li><a href="/about">About</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-logo">Stop Think Pivot</div>
+        <div class="footer-tagline">Don't let life push you around</div>
+        <nav aria-label="Footer navigation">
+          <ul class="footer-nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="/blog">Writing</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/rss.xml">RSS</a></li>
+          </ul>
+        </nav>
+        <p class="footer-copy">&copy; {new Date().getFullYear()} Stop Think Pivot &mdash; All rights reserved</p>
+      </div>
+    </footer>
+  </body>
+</html>

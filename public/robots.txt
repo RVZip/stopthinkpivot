@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://stopthinkpivot.com/sitemap-index.xml

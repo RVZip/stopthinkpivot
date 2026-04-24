@@ -1,0 +1,24 @@
+# Stop Think Pivot
+
+> Don't Let Life Push You Around. Stop. Think. Pivot.
+
+A personal site and blog by Matt. Covers mindset, faith, business, and the discipline of intentional direction — stopping to think before reacting, and pivoting with purpose rather than panic.
+
+## Site Structure
+
+- / — Home, recent posts
+- /blog — Full post archive
+- /about — About the author and the site
+- /rss.xml — RSS feed
+
+## Content
+
+Posts are written in plain Markdown and cover:
+- Mindset and intentional living
+- Faith-adjacent topics
+- Business and personal pivots
+- Hard-won lessons shared directly
+
+## Contact
+
+Site: https://stopthinkpivot.com

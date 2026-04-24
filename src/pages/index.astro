@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 5);
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: '2-digit',
+  }).replace(',', '');
+}
+---
+
+<BaseLayout title="Stop Think Pivot">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-eyebrow">stopthinkpivot.com</div>
+      <h1 class="hero-title">
+        Stop.<br/>
+        <em>Think.</em><br/>
+        Pivot.
+      </h1>
+      <p class="hero-tagline">Don't let life push you around.</p>
+    </div>
+  </section>
+
+  <!-- Recent Writing -->
+  <section style="padding: 4rem 0 6rem;">
+    <div class="container">
+      <div class="section-label">Recent Writing</div>
+
+      {posts.length > 0 ? (
+        <div class="post-grid">
+          {posts.map((post) => (
+            <a href={`/blog/${post.slug}`} class="post-card">
+              <div class="post-card__date">
+                {formatDate(post.data.pubDate)}
+              </div>
+              <div>
+                <div class="post-card__title">{post.data.title}</div>
+                <p class="post-card__excerpt">{post.data.description}</p>
+                {post.data.tags.length > 0 && (
+                  <div class="post-card__tags">
+                    {post.data.tags.map(tag => (
+                      <span class="tag">{tag}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p style="color: var(--text-muted); font-style: italic;">Nothing posted yet. Check back soon.</p>
+      )}
+
+      <div style="margin-top: 2.5rem;">
+        <a href="/blog" style="font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); display: inline-flex; align-items: center; gap: 0.5rem; transition: color 0.2s;">
+          All writing &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

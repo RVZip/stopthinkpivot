@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, getEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: post,
+  }));
+}
+
+const post = Astro.props;
+const { Content } = await post.render();
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+---
+
+<BaseLayout title={`${post.data.title} — Stop Think Pivot`} description={post.data.description}>
+  <div style="padding-bottom: 6rem;">
+    <div class="container">
+      <div class="post-header">
+        <div class="post-meta">
+          {formatDate(post.data.pubDate)}
+          {post.data.tags.length > 0 && (
+            <span style="margin-left: 1.2rem;">
+              {post.data.tags.join(' · ')}
+            </span>
+          )}
+        </div>
+        <h1>{post.data.title}</h1>
+        {post.data.description && (
+          <p class="post-subtitle">{post.data.description}</p>
+        )}
+      </div>
+
+      <article class="post-body">
+        <Content />
+      </article>
+
+      <div class="ember-divider">&#9679;</div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;">
+        <a href="/blog" style="color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase;">
+          &larr; All writing
+        </a>
+        <a href="/" style="color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase;">
+          Home
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
